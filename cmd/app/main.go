@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"runtime"
 	"time"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/log"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/wire"
 	"github.com/rakhiazfa/fiber-boilerplate/pkg/config"
 )
