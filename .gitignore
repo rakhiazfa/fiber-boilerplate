@@ -1,0 +1,36 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Go workspace files
+bin/
+build/
+vendor/
+
+# IDE/editor files
+*.swp
+*.swo
+*.log
+*.tmp
+*.bak
+*.DS_Store
+.idea/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+
+# Cache, test results, and profiling
+*.out
+*.prof
+coverage/
+
+# Environment files
+.env
+
+# Local files
+*.local
