@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"
+	recoverer "github.com/gofiber/fiber/v3/middleware/recover"
 	"github.com/gofiber/fiber/v3/middleware/requestid"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/delivery/http/handler"
 	"github.com/rakhiazfa/fiber-boilerplate/pkg/config"
@@ -23,6 +24,7 @@ func New(
 		AppName:       config.Get("APP_NAME"),
 	})
 
+	app.Use(recoverer.New())
 	app.Use(requestid.New())
 	app.Use(logger.New(logger.Config{
 		CustomTags: map[string]logger.LogFunc{
