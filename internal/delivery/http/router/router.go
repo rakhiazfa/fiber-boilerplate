@@ -12,7 +12,7 @@ import (
 
 func New(
 	errorHandler *handler.ErrorHandler,
-	healthcheckRouter *HealthcheckRouter,
+	healthCheckRouter *HealthCheckRouter,
 ) *fiber.App {
 	app := fiber.New(fiber.Config{
 		JSONEncoder:   json.Marshal,
@@ -35,7 +35,7 @@ func New(
 
 	api := app.Group("/api")
 
-	healthcheckRouter.Load(api)
+	healthCheckRouter.Load(api)
 
 	return app
 }

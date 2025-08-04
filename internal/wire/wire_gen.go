@@ -20,13 +20,13 @@ import (
 func NewApplication() *fiber.App {
 	errorHandler := handler.NewErrorHandler()
 	db := database.NewPostgreSQLConnection()
-	healthcheckService := service.NewHealthcheckService(db)
-	healthcheckHandler := handler.NewHealthcheckHandler(healthcheckService)
-	healthcheckRouter := router.NewHealthcheckRouter(healthcheckHandler)
-	app := router.New(errorHandler, healthcheckRouter)
+	healthCheckService := service.NewHealthCheckService(db)
+	healthCheckHandler := handler.NewHealthCheckHandler(healthCheckService)
+	healthCheckRouter := router.NewHealthCheckRouter(healthCheckHandler)
+	app := router.New(errorHandler, healthCheckRouter)
 	return app
 }
 
 // wire.go:
 
-var healthcheckModule = wire.NewSet(service.NewHealthcheckService, handler.NewHealthcheckHandler, router.NewHealthcheckRouter)
+var healthCheckModule = wire.NewSet(service.NewHealthCheckService, handler.NewHealthCheckHandler, router.NewHealthCheckRouter)

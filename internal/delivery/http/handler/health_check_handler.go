@@ -8,16 +8,16 @@ import (
 	"github.com/rakhiazfa/fiber-boilerplate/internal/service"
 )
 
-type HealthcheckHandler struct {
-	healthcheckService *service.HealthcheckService
+type HealthCheckHandler struct {
+	healthCheckService *service.HealthCheckService
 }
 
-func NewHealthcheckHandler(healthcheckService *service.HealthcheckService) *HealthcheckHandler {
-	return &HealthcheckHandler{healthcheckService}
+func NewHealthCheckHandler(healthCheckService *service.HealthCheckService) *HealthCheckHandler {
+	return &HealthCheckHandler{healthCheckService}
 }
 
-func (h *HealthcheckHandler) Check(c fiber.Ctx) error {
-	err := h.healthcheckService.Check()
+func (h *HealthCheckHandler) Check(c fiber.Ctx) error {
+	err := h.healthCheckService.Check()
 	if err != nil {
 		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
 			"timestamp": time.Now(),

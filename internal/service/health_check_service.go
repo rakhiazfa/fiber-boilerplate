@@ -5,15 +5,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type HealthcheckService struct {
+type HealthCheckService struct {
 	db *gorm.DB
 }
 
-func NewHealthcheckService(db *gorm.DB) *HealthcheckService {
-	return &HealthcheckService{db}
+func NewHealthCheckService(db *gorm.DB) *HealthCheckService {
+	return &HealthCheckService{db}
 }
 
-func (s *HealthcheckService) Check() error {
+func (s *HealthCheckService) Check() error {
 	sqlDB, err := s.db.DB()
 	if err != nil {
 		return fiber.NewError(fiber.StatusServiceUnavailable, "Failed to get generic database")

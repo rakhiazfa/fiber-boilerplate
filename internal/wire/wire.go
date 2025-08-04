@@ -12,17 +12,17 @@ import (
 	"github.com/rakhiazfa/fiber-boilerplate/internal/service"
 )
 
-var healthcheckModule = wire.NewSet(
-	service.NewHealthcheckService,
-	handler.NewHealthcheckHandler,
-	router.NewHealthcheckRouter,
+var healthCheckModule = wire.NewSet(
+	service.NewHealthCheckService,
+	handler.NewHealthCheckHandler,
+	router.NewHealthCheckRouter,
 )
 
 func NewApplication() *fiber.App {
 	wire.Build(
 		database.NewPostgreSQLConnection,
 		handler.NewErrorHandler,
-		healthcheckModule,
+		healthCheckModule,
 		router.New,
 	)
 
