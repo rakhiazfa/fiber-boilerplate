@@ -27,12 +27,7 @@ func New(
 
 	app.Use(requestid.New())
 	app.Use(logger.New(logger.Config{
-		CustomTags: map[string]logger.LogFunc{
-			"requestid": func(output logger.Buffer, c fiber.Ctx, data *logger.Data, extraParam string) (int, error) {
-				return output.WriteString(requestid.FromContext(c))
-			},
-		},
-		Format: "[PID - ${pid}] [${time}] [${requestid}] ${status} - ${method} ${path} ${latency}\n",
+		Format: "[PID - ${pid}] [${time}] ${status} - ${method} ${path} ${latency}\n",
 	}))
 	app.Use(recoverer.New())
 
