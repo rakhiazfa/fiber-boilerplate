@@ -9,7 +9,9 @@ package wire
 import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/google/wire"
-	"github.com/rakhiazfa/fiber-boilerplate/internal/database"
+	"github.com/rakhiazfa/fiber-boilerplate/internal/config/application"
+	"github.com/rakhiazfa/fiber-boilerplate/internal/config/database"
+	"github.com/rakhiazfa/fiber-boilerplate/internal/config/logger"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/delivery/http/handler"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/delivery/http/router"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/service"
@@ -17,13 +19,14 @@ import (
 
 // Injectors from wire.go:
 
-func NewApplication() *fiber.App {
-	errorHandler := handler.NewErrorHandler()
-	db := database.NewPostgreSQLConnection()
+func Bootstrap() *fiber.App {
+	logrusLogger := logger.New()
+	errorHandler := handler.NewErrorHandler(logrusLogger)
+	db := database.NewPostgreSQLConnection(logrusLogger)
 	healthCheckService := service.NewHealthCheckService(db)
 	healthCheckHandler := handler.NewHealthCheckHandler(healthCheckService)
 	healthCheckRouter := router.NewHealthCheckRouter(healthCheckHandler)
-	app := router.New(errorHandler, healthCheckRouter)
+	app := application.New(errorHandler, healthCheckRouter)
 	return app
 }
 

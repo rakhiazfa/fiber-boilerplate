@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gofiber/fiber/v3/log"
 	"github.com/rakhiazfa/fiber-boilerplate/pkg/config"
+	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
-func NewPostgreSQLConnection() *gorm.DB {
+func NewPostgreSQLConnection(log *logrus.Logger) *gorm.DB {
 	dsn := fmt.Sprintf(
 		"host=%s port=%d dbname=%s user=%s password=%s sslmode=disable TimeZone=%s",
 		config.Get("DATABASE_HOST"),
@@ -27,12 +27,12 @@ func NewPostgreSQLConnection() *gorm.DB {
 		SkipDefaultTransaction: true,
 	})
 	if err != nil {
-		log.Error("failed to initialize postgres connection: ", err)
+		log.Fatalf("Failed to initialize postgres connection: %+v", err)
 	}
 
 	db, err := gorm.DB()
 	if err != nil {
-		log.Error("failed to get generic database: ", err)
+		log.Fatalf("Failed to get generic database: %+v", err)
 	}
 
 	db.SetMaxOpenConns(config.GetInt("DATABASE_MAX_OPEN_CONNECTIONS"))

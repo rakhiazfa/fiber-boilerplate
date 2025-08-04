@@ -1,4 +1,4 @@
-package router
+package application
 
 import (
 	"github.com/goccy/go-json"
@@ -8,12 +8,13 @@ import (
 	recoverer "github.com/gofiber/fiber/v3/middleware/recover"
 	"github.com/gofiber/fiber/v3/middleware/requestid"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/delivery/http/handler"
+	"github.com/rakhiazfa/fiber-boilerplate/internal/delivery/http/router"
 	"github.com/rakhiazfa/fiber-boilerplate/pkg/config"
 )
 
 func New(
 	errorHandler *handler.ErrorHandler,
-	healthCheckRouter *HealthCheckRouter,
+	healthCheckRouter *router.HealthCheckRouter,
 ) *fiber.App {
 	app := fiber.New(fiber.Config{
 		JSONEncoder:   json.Marshal,
@@ -24,7 +25,6 @@ func New(
 		AppName:       config.Get("APP_NAME"),
 	})
 
-	app.Use(recoverer.New())
 	app.Use(requestid.New())
 	app.Use(logger.New(logger.Config{
 		CustomTags: map[string]logger.LogFunc{
@@ -34,6 +34,7 @@ func New(
 		},
 		Format: "[PID - ${pid}] [${time}] [${requestid}] ${status} - ${method} ${path} ${latency}\n",
 	}))
+	app.Use(recoverer.New())
 
 	api := app.Group("/api")
 
