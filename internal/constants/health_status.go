@@ -1,6 +1,6 @@
 package constants
 
-var (
+const (
 	HealthStatusHealthy   = "Healthy"
 	HealthStatusUnhealthy = "Unhealthy"
 )
