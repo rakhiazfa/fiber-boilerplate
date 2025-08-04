@@ -20,14 +20,14 @@ func (h *HealthcheckHandler) Check(c fiber.Ctx) error {
 	err := h.healthcheckService.Check()
 	if err != nil {
 		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
+			"timestamp": time.Now(),
 			"status":    constants.HealthStatusUnhealthy,
 			"message":   err.Error(),
-			"timestamp": time.Now(),
 		})
 	}
 
 	return c.JSON(fiber.Map{
-		"status":    constants.HealthStatusHealthy,
 		"timestamp": time.Now(),
+		"status":    constants.HealthStatusHealthy,
 	})
 }
