@@ -8,6 +8,7 @@ require (
 	github.com/gofiber/fiber/v3 v3.0.0-beta.5
 	github.com/google/wire v0.6.0
 	github.com/joho/godotenv v1.5.1
+	github.com/sirupsen/logrus v1.9.3
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.30.1
 )
@@ -31,7 +32,6 @@ require (
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
-	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/tinylib/msgp v1.3.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.64.0 // indirect
