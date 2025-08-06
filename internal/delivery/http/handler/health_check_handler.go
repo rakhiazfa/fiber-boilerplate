@@ -15,7 +15,7 @@ func NewHealthCheckHandler(healthCheckService *service.HealthCheckService) *Heal
 }
 
 func (h *HealthCheckHandler) Check(c fiber.Ctx) error {
-	err := h.healthCheckService.Check()
+	err := h.healthCheckService.Check(c.RequestCtx())
 	if err != nil {
 		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
 			"status":  constants.HealthStatusUnhealthy,

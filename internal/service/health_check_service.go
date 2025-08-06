@@ -1,6 +1,8 @@
 package service
 
 import (
+	"context"
+
 	"github.com/gofiber/fiber/v3"
 	"gorm.io/gorm"
 )
@@ -13,8 +15,8 @@ func NewHealthCheckService(db *gorm.DB) *HealthCheckService {
 	return &HealthCheckService{db}
 }
 
-func (s *HealthCheckService) Check() error {
-	sqlDB, err := s.db.DB()
+func (s *HealthCheckService) Check(ctx context.Context) error {
+	sqlDB, err := s.db.WithContext(ctx).DB()
 	if err != nil {
 		return fiber.NewError(fiber.StatusServiceUnavailable, "Failed to get generic database")
 	}
