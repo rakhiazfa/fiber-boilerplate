@@ -19,7 +19,5 @@ RUN apk add --no-cache ca-certificates
 
 COPY --from=builder /app/bin/app/main ./bin/app/main
 
-ENV GIN_MODE=release
-
 EXPOSE 8080
 CMD ["./bin/app/main"]
