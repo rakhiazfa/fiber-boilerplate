@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/rakhiazfa/fiber-boilerplate/internal/constants"
 	"github.com/rakhiazfa/fiber-boilerplate/pkg/config"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
@@ -23,7 +24,7 @@ func NewPostgreSQLConnection(log *logrus.Logger) *gorm.DB {
 	)
 
 	gorm, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger:                 logger.Default.LogMode(logger.Info),
+		Logger:                 logger.Default.LogMode(getGormLogLevel()),
 		SkipDefaultTransaction: true,
 	})
 	if err != nil {
@@ -41,4 +42,12 @@ func NewPostgreSQLConnection(log *logrus.Logger) *gorm.DB {
 	db.SetConnMaxIdleTime(config.GetDuration("DATABASE_CONNECTION_IDLE_TIME") * time.Minute)
 
 	return gorm
+}
+
+func getGormLogLevel() logger.LogLevel {
+	if config.Get("APP_ENV") == constants.EnvironmentProduction {
+		return logger.Error
+	}
+
+	return logger.Info
 }
