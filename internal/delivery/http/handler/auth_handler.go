@@ -25,7 +25,7 @@ func (h *AuthHandler) SignUp(c fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(fiber.Map{
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Successfully created a new account",
 	})
 }
