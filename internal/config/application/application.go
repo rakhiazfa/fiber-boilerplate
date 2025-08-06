@@ -17,6 +17,7 @@ import (
 func New(
 	errorHandler *handler.ErrorHandler,
 	healthCheckRouter *router.HealthCheckRouter,
+	authRouter *router.AuthRouter,
 ) *fiber.App {
 	app := fiber.New(fiber.Config{
 		JSONEncoder:     json.Marshal,
@@ -39,6 +40,7 @@ func New(
 	api := app.Group("/api")
 
 	healthCheckRouter.Load(api)
+	authRouter.Load(api)
 
 	return app
 }

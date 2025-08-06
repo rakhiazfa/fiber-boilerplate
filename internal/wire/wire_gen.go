@@ -14,6 +14,7 @@ import (
 	"github.com/rakhiazfa/fiber-boilerplate/internal/config/logger"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/delivery/http/handler"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/delivery/http/router"
+	"github.com/rakhiazfa/fiber-boilerplate/internal/repository"
 	"github.com/rakhiazfa/fiber-boilerplate/internal/service"
 )
 
@@ -26,10 +27,19 @@ func Bootstrap() *fiber.App {
 	healthCheckService := service.NewHealthCheckService(db)
 	healthCheckHandler := handler.NewHealthCheckHandler(healthCheckService)
 	healthCheckRouter := router.NewHealthCheckRouter(healthCheckHandler)
-	app := application.New(errorHandler, healthCheckRouter)
+	userRepository := repository.NewUserRepository(db)
+	userService := service.NewUserService(logrusLogger, db, userRepository)
+	authService := service.NewAuthService(userService)
+	authHandler := handler.NewAuthHandler(authService)
+	authRouter := router.NewAuthRouter(authHandler)
+	app := application.New(errorHandler, healthCheckRouter, authRouter)
 	return app
 }
 
 // wire.go:
 
 var healthCheckModule = wire.NewSet(service.NewHealthCheckService, handler.NewHealthCheckHandler, router.NewHealthCheckRouter)
+
+var userModule = wire.NewSet(repository.NewUserRepository, service.NewUserService)
+
+var authModule = wire.NewSet(service.NewAuthService, handler.NewAuthHandler, router.NewAuthRouter)
