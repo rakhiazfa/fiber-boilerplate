@@ -4,8 +4,10 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/requestid"
+	"github.com/rakhiazfa/fiber-boilerplate/internal/delivery/http/converter"
 	"github.com/sirupsen/logrus"
 )
 
@@ -18,6 +20,13 @@ func NewErrorHandler(log *logrus.Logger) *ErrorHandler {
 }
 
 func (h *ErrorHandler) Handle(c fiber.Ctx, err error) error {
+	var validationErrors validator.ValidationErrors
+	if errors.As(err, &validationErrors) {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"errors": converter.ValidationErrorsToResponse(validationErrors),
+		})
+	}
+
 	statusCode := fiber.StatusInternalServerError
 
 	var fiberErr *fiber.Error
