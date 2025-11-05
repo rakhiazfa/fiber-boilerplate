@@ -9,10 +9,10 @@ import (
 	"github.com/gofiber/fiber/v3/log"
 )
 
-var errorMessages = map[string]string{
+var ErrorMessages = map[string]string{
 	"required": "/f is required",
 	"email":    "/f must be a valid email address",
-	"username": "invalid /f",
+	"username": "/f must be a valid username",
 	"numeric":  "/f must be a number",
 	"alphanum": "/f must contain alphanumeric characters",
 	"boolean":  "/f must be a boolean value",
@@ -31,7 +31,7 @@ type Validator struct {
 func New() *Validator {
 	validator := gpv.New()
 
-	err := validator.RegisterValidation("username", UsernameValidation)
+	err := validator.RegisterValidation("username", usernameValidation)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -39,7 +39,7 @@ func New() *Validator {
 	return &Validator{validator}
 }
 
-func (v *Validator) Validate(i interface{}) error {
+func (v *Validator) Validate(i any) error {
 	return v.validator.Struct(i)
 }
 
@@ -51,14 +51,14 @@ func FormatValidationErrors(errors validator.ValidationErrors) map[string]string
 		tag := err.Tag()
 		param := err.Param()
 
-		msgTemplate := errorMessages[tag]
+		msgTemplate := ErrorMessages[tag]
 
 		if msgTemplate == "" {
 			msgTemplate = fmt.Sprintf("%s validation failed on %s", field, tag)
 		}
 
-		msg := strings.Replace(msgTemplate, "/f", field, -1)
-		msg = strings.Replace(msg, "/p", param, -1)
+		msg := strings.ReplaceAll(msgTemplate, "/f", field)
+		msg = strings.ReplaceAll(msg, "/p", param)
 
 		formattedErrors[field] = msg
 	}

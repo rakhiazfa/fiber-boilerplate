@@ -4,26 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/go-playground/validator/v10"
+	gpv "github.com/go-playground/validator/v10"
 	"github.com/rakhiazfa/fiber-boilerplate/pkg/formatter"
+	"github.com/rakhiazfa/fiber-boilerplate/pkg/validator"
 )
 
-var errorMessages = map[string]string{
-	"required": "/f is required",
-	"email":    "/f must be a valid email address",
-	"username": "/f must be a valid username",
-	"numeric":  "/f must be a number",
-	"alphanum": "/f must contain alphanumeric characters",
-	"boolean":  "/f must be a boolean value",
-	"uuid":     "/f must be a valid UUID",
-	"min":      "/f must have at least /p characters",
-	"max":      "/f must not exceed /p characters",
-	"gte":      "/f must be at least /p",
-	"lte":      "/f must be at most /p",
-	"eqfield":  "/f must be the same as the /p field",
-}
-
-func ValidationErrorsToResponse(errors validator.ValidationErrors) map[string]string {
+func ConvertValidationErrorsToMap(errors gpv.ValidationErrors) map[string]string {
 	formattedErrors := make(map[string]string)
 
 	for _, err := range errors {
@@ -35,13 +21,13 @@ func ValidationErrorsToResponse(errors validator.ValidationErrors) map[string]st
 			param = formatter.LowerCaseFirst(param)
 		}
 
-		msgTemplate := errorMessages[tag]
+		msgTemplate := validator.ErrorMessages[tag]
 		if msgTemplate == "" {
 			msgTemplate = fmt.Sprintf("%s validation failed on %s", field, tag)
 		}
 
-		msg := strings.Replace(msgTemplate, "/f", field, -1)
-		msg = strings.Replace(msg, "/p", param, -1)
+		msg := strings.ReplaceAll(msgTemplate, "/f", field)
+		msg = strings.ReplaceAll(msg, "/p", param)
 
 		formattedErrors[field] = msg
 	}

@@ -1,14 +1,14 @@
 module github.com/rakhiazfa/fiber-boilerplate
 
-go 1.24.5
+go 1.25.3
 
 require (
 	github.com/go-playground/validator/v10 v10.27.0
 	github.com/goccy/go-json v0.10.5
 	github.com/gofiber/fiber/v3 v3.0.0-beta.5
 	github.com/google/uuid v1.6.0
-	github.com/google/wire v0.6.0
 	github.com/joho/godotenv v1.5.1
+	github.com/mazrean/kessoku v1.0.0
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/crypto v0.40.0
 	gorm.io/driver/postgres v1.6.0
@@ -16,6 +16,7 @@ require (
 )
 
 require (
+	github.com/alecthomas/kong v1.12.1 // indirect
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.9 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -36,8 +37,12 @@ require (
 	github.com/tinylib/msgp v1.3.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.64.0 // indirect
+	golang.org/x/mod v0.26.0 // indirect
 	golang.org/x/net v0.42.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect
 	golang.org/x/text v0.27.0 // indirect
+	golang.org/x/tools v0.35.0 // indirect
 )
+
+tool github.com/mazrean/kessoku/cmd/kessoku

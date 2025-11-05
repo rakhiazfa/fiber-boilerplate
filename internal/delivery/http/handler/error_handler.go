@@ -23,7 +23,7 @@ func (h *ErrorHandler) Handle(c fiber.Ctx, err error) error {
 	var validationErrors validator.ValidationErrors
 	if errors.As(err, &validationErrors) {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"errors": converter.ValidationErrorsToResponse(validationErrors),
+			"errors": converter.ConvertValidationErrorsToMap(validationErrors),
 		})
 	}
 
@@ -47,7 +47,6 @@ func (h *ErrorHandler) Handle(c fiber.Ctx, err error) error {
 	}).Error(err.Error())
 
 	return c.Status(statusCode).JSON(fiber.Map{
-		"status":  statusMessage,
 		"message": err.Error(),
 	})
 }

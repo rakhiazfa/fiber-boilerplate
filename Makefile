@@ -1,31 +1,20 @@
-ifeq ($(OS),Windows_NT)
-  ifeq ($(ComSpec),$(shell echo %ComSpec%))
-    GO_BASE := $(shell cd)
-  else
-    GO_BASE := $(shell cygpath -w $(shell pwd))
-  endif
-else
-  GO_BASE := $(shell pwd)
-endif
+BIN_DIR := bin
 
-GO_BIN := $(GO_BASE)/bin
+SRC := cmd/api/main.go
+OUT := $(BIN_DIR)/api
 
-MIGRATION_PATH := ./db/migrations
-WIRE_PATH := ./internal/wire
+DI_PATH := internal/bootstrap/dependency_injection.go
 
-wire:
-	@wire gen $(WIRE_PATH)
+prebuild:
+	@go tool kessoku $(DI_PATH)
 
-build: wire
-	@go build -o $(GO_BIN)/app/main cmd/app/main.go
+build: prebuild
+	@go build -o $(OUT) $(SRC)
 
 run: build
-	@$(GO_BIN)/app/main
-
-create-migration:
-	@migrate create -ext sql -dir $(MIGRATION_PATH) -seq $(name)
+	@$(OUT)
 
 clean:
 	@rm -rf $(GO_BIN)
 
-.PHONY: wire build run clean create-migration
+.PHONY: build run clean
